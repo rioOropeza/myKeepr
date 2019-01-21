@@ -6,11 +6,13 @@ namespace keepr.Models
 {
   public class VaultKeep
   {
-    [Required]
     public int id { get; set; }
+    [Required]
     public int vaultId { get; set; }
+    [Required]
     public int keepId { get; set; }
-    public int userId { get; set; }
+    [Required]
+    public string userId { get; set; }
 
   }
 }

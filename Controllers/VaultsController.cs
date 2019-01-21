@@ -6,7 +6,7 @@ using keepr.Models;
 using keepr.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Vaultr.Controllers
+namespace keepr.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
@@ -24,16 +24,12 @@ namespace Vaultr.Controllers
       return Ok(_repo.getAllVaults());
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<Vault> Get(int id)
+    [HttpGet("user/{id}")]
+    public IEnumerable<Vault> Get(string id)
     {
-      Vault result = _repo.getVaultById(id);
-      if (result != null)
-      {
-        return Ok(result);
-      }
-      return BadRequest();
+      return _repo.GetVaultByUserId(id);
     }
+
 
     [HttpPost]
     public ActionResult<Vault> Post([FromBody] Vault value)
@@ -41,10 +37,10 @@ namespace Vaultr.Controllers
       Vault result = _repo.NewVault(value);
       return Created("/api/Vault/" + result.Id, result);
     }
-    [HttpDelete("{id}")]
-    public ActionResult<string> Delete(int id)
+    [HttpDelete("{id}/{userid}")]
+    public ActionResult<string> Delete(Vault vault)
     {
-      if (_repo.DeleteVault(id))
+      if (_repo.DeleteVault(vault))
       {
         return Ok("Vault was deleted!");
       }

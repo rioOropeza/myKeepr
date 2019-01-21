@@ -24,15 +24,10 @@ namespace keepr.Controllers
       return Ok(_repo.getAllKeeps());
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<Keep> Get(int id)
+    [HttpGet("user/{id}")]
+    public IEnumerable<Keep> Get(string id)
     {
-      Keep result = _repo.getKeepById(id);
-      if (result != null)
-      {
-        return Ok(result);
-      }
-      return BadRequest();
+      return _repo.GetByUserId(id);
     }
 
     [HttpPost]

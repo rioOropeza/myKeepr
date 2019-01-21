@@ -17,15 +17,10 @@ namespace keepr.Repositories
     //get all keeps 
     public IEnumerable<Keep> getAllKeeps()
     {
-      return _db.Query<Keep>("SELECT * FROM Keeps");
-    }
-    //get keep by id
-    public Keep getKeepById(int id)
-    {
-      return _db.QueryFirstOrDefault<Keep>($"SELECT * FROM Keeps WHERE id = @id", new { id });
+      return _db.Query<Keep>("SELECT * FROM Keeps WHERE isPrivate=false");
     }
     //get keeps by user id
-    public IEnumerable<Keep> GetByUserId(int id)
+    public IEnumerable<Keep> GetByUserId(string id)
     {
       return _db.Query<Keep>("SELECT * FROM Keeps WHERE userId = @id", new { id });
     }
@@ -45,6 +40,13 @@ namespace keepr.Repositories
     {
       int success = _db.Execute(@"DELETE FROM keeps WHERE id = @id", new { id });
       return success != 0;
+    }
+    //get keeps by vault ID
+    public IEnumerable<Keep> getKeepsByVaultId(int id)
+    {
+      return _db.Query<Keep>(@"SELECT * FROM vaultkeeps vk
+INNER JOIN keeps k ON k.id = vk.keepId
+WHERE(vaultId = @vaultId AND vk.userId = @userId)");
     }
   }
 }
