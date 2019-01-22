@@ -45,18 +45,6 @@ namespace keepr.Controllers
       return BadRequest("couldn't make vault");
     }
 
-    [HttpPostAttribute("vaultkeep")]
-    public ActionResult<VaultKeep> Post([FromBody] VaultKeep value)
-    {
-      string uid = HttpContext.User.Identity.Name;
-      if (uid != null)
-      {
-        VaultKeep result = _repo.NewVaultKeep(value);
-        return Created("good", result);
-      }
-      return BadRequest("can't make vaultkeep");
-    }
-
     [Authorize]
     [HttpDelete("{vaultId}")]
     public ActionResult<string> Delete(string vaultId)

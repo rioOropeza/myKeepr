@@ -35,25 +35,7 @@ namespace keepr.Repositories
       Vault.Id = id;
       return Vault;
     }
-    //new vault keep
-    public VaultKeep NewVaultKeep(VaultKeep vk)
-    {
-      _db.Execute(@"
-        INSERT INTO vaultkeeps (vaultId, keepId, userId)
-        VALUES (@VaultId, @KeepId, @UserId);
-      ", vk);
-      return vk;
-    }
-    public IEnumerable<VaultKeep> GetVaultKeepById(int id)
-    {
-      return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps WHERE vaultid = @id", new { id });
-    }
-    public bool DeleteVaultKeep(VaultKeep vaultKeep)
-    {
-      int success = _db.Execute(@"
-      DELETE FROM vaultkeeps WHERE keepId = @KeepId AND vaultId = @VaultId", vaultKeep);
-      return success != 0;
-    }
+
 
     //DELETE Vault
     public bool DeleteVault(string vaultId, string userId)

@@ -13,9 +13,9 @@ namespace keepr.Controllers
   [ApiController]
   public class VaultKeepsController : ControllerBase
   {
-    private readonly VaultRepository _repo;
+    private readonly VaultKeepsRepository _repo;
 
-    public VaultKeepsController(VaultRepository repo)
+    public VaultKeepsController(VaultKeepsRepository repo)
     {
       _repo = repo;
     }
@@ -32,7 +32,7 @@ namespace keepr.Controllers
       return BadRequest("can't make vaultkeep");
     }
     [HttpGet("{id}")]
-    public IEnumerable<VaultKeep> Get(int id)
+    public IEnumerable<Keep> Get(int id)
     {
       return _repo.GetVaultKeepById(id);
     }
