@@ -26,7 +26,7 @@ export default new Vuex.Store({
     setUser(state, user) {
       state.user = user
     },
-    setKeeps(state, keeps) {
+    setPublicKeeps(state, keeps) {
       state.publicKeeps = keeps
     }
   },
@@ -64,7 +64,7 @@ export default new Vuex.Store({
     getPublicKeeps({ commit, dispatch }) {
       api.get('keeps')
         .then(res => {
-          commit('setKeeps', res.data)
+          commit('setPublicKeeps', res.data)
         })
     }
   }
