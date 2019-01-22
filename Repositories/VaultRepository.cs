@@ -15,16 +15,10 @@ namespace keepr.Repositories
       _db = db;
     }
     //get all Vaults 
-    public IEnumerable<Vault> getAllVaults()
+    public IEnumerable<Vault> getByUserId(string id)
     {
-      return _db.Query<Vault>("SELECT * FROM Vaults");
+      return _db.Query<Vault>("SELECT * FROM Vaults WHERE userId =@id", new { id });
     }
-    //get Vaults by user id
-    public IEnumerable<Vault> GetVaultByUserId(string id)
-    {
-      return _db.Query<Vault>("SELECT * FROM Keeps WHERE userId = @id", new { id });
-    }
-    //create Vault
     public Vault NewVault(Vault Vault)
     {
       int id = _db.ExecuteScalar<int>(@"

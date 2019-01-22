@@ -20,16 +20,10 @@ namespace keepr.Controllers
       _repo = repo;
     }
     [HttpGet]
-    public ActionResult<IEnumerable<Vault>> GetAll()
-    {
-      return Ok(_repo.getAllVaults());
-    }
-    [Authorize]
-    [HttpGet("user")]
-    public IEnumerable<Vault> Get()
+    public ActionResult<IEnumerable<Vault>> GetByUserId()
     {
       string uid = HttpContext.User.Identity.Name;
-      return _repo.GetVaultByUserId(uid);
+      return Ok(_repo.getByUserId(uid));
     }
 
 

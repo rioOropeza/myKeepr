@@ -31,10 +31,13 @@ namespace keepr.Controllers
       }
       return BadRequest("can't make vaultkeep");
     }
+
     [HttpGet("{id}")]
     public IEnumerable<Keep> Get(int id)
     {
+
       return _repo.GetVaultKeepById(id);
+
     }
     [HttpDelete]
     public ActionResult<string> DeleteVaultKeep([FromBody]VaultKeep vaultKeep)
