@@ -38,6 +38,16 @@ namespace keepr.Controllers
       }
       return BadRequest("couldn't make vault");
     }
+    [HttpGet("{id}")]
+    public ActionResult<Vault> Get(int id)
+    {
+      Vault result = _repo.GetVaultById(id);
+      if (result != null)
+      {
+        return Ok(result);
+      }
+      return BadRequest();
+    }
 
     [Authorize]
     [HttpDelete("{vaultId}")]

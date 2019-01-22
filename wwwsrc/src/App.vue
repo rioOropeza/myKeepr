@@ -3,7 +3,14 @@
     <router-view />
   </div>
 </template>
-
+<script>
+  export default {
+    name: "app",
+    mounted() {
+      this.$store.dispatch("authenticate");
+    }
+  }
+</script>
 <style>
   #app {
     font-family: "Avenir", Helvetica, Arial, sans-serif;

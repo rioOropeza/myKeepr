@@ -57,7 +57,8 @@ WHERE(vaultId = @vaultId AND vk.userId = @userId)");
         description = @Description, 
         isPrivate = @IsPrivate, 
         keeps=@keeps,
-        views=@views
+        views=@views,
+        shares=@shares
         WHERE id = @Id AND userId = @userId
       ", keep);
       return keep;

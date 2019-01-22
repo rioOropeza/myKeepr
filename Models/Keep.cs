@@ -17,6 +17,7 @@ namespace keepr.Models
     public bool IsPrivate { get; set; }
     public int Views { get; set; }
     public int Keeps { get; set; }
+    public int Shares { get; set; }
 
   }
 }

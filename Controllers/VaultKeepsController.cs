@@ -19,7 +19,7 @@ namespace keepr.Controllers
     {
       _repo = repo;
     }
-    [Authorize]
+
     [HttpPost]
     public ActionResult<VaultKeep> Post([FromBody] VaultKeep value)
     {
@@ -39,7 +39,7 @@ namespace keepr.Controllers
       return _repo.GetVaultKeepById(id);
 
     }
-    [HttpDelete]
+    [HttpPut]
     public ActionResult<string> DeleteVaultKeep([FromBody]VaultKeep vaultKeep)
     {
       var result = _repo.DeleteVaultKeep(vaultKeep);
