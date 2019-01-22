@@ -36,9 +36,9 @@ namespace keepr.Repositories
       return keep;
     }
     //DELETE KEEP
-    public bool DeleteKeep(int id)
+    public bool DeleteKeep(string keepId, string userId)
     {
-      int success = _db.Execute(@"DELETE FROM keeps WHERE id = @id", new { id });
+      int success = _db.Execute(@"DELETE FROM Keeps WHERE id = @keepId && userid = @userid", new { keepId, userId });
       return success != 0;
     }
     //get keeps by vault ID
@@ -47,6 +47,20 @@ namespace keepr.Repositories
       return _db.Query<Keep>(@"SELECT * FROM vaultkeeps vk
 INNER JOIN keeps k ON k.id = vk.keepId
 WHERE(vaultId = @vaultId AND vk.userId = @userId)");
+    }
+    public Keep editKeep(Keep keep)
+    {
+      _db.Execute(@"
+      UPDATE keeps SET 
+        name = @Name, 
+        img = @Img, 
+        description = @Description, 
+        isPrivate = @IsPrivate, 
+        keeps=@keeps,
+        views=@views
+        WHERE id = @Id AND userId = @userId
+      ", keep);
+      return keep;
     }
   }
 }

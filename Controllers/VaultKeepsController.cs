@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using keepr.Models;
 using keepr.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Controllers
@@ -18,14 +19,32 @@ namespace keepr.Controllers
     {
       _repo = repo;
     }
-    [HttpPut]
-    public string Put([FromBody] VaultKeep vaultKeep)
+    [Authorize]
+    [HttpPost]
+    public ActionResult<VaultKeep> Post([FromBody] VaultKeep value)
     {
-      if (!ModelState.IsValid)
+      value.userId = HttpContext.User.Identity.Name;
+      if (value.userId != null)
       {
-        return "can't create vault keep";
+        VaultKeep result = _repo.NewVaultKeep(value);
+        return Created("good", result);
       }
-      return _repo.NewVaultKeep(vaultKeep);
+      return BadRequest("can't make vaultkeep");
+    }
+    [HttpGet("{id}")]
+    public IEnumerable<VaultKeep> Get(int id)
+    {
+      return _repo.GetVaultKeepById(id);
+    }
+    [HttpDelete]
+    public ActionResult<string> DeleteVaultKeep([FromBody]VaultKeep vaultKeep)
+    {
+      var result = _repo.DeleteVaultKeep(vaultKeep);
+      if (result != false)
+      {
+        return Ok("deleted vault keep");
+      }
+      return BadRequest("not deleted");
     }
   }
 }

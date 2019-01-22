@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using keepr.Models;
 using keepr.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Controllers
@@ -19,31 +20,48 @@ namespace keepr.Controllers
       _repo = repo;
     }
     [HttpGet]
-    public ActionResult<IEnumerable<Keep>> Get()
+    public ActionResult<IEnumerable<Keep>> GetAll()
     {
       return Ok(_repo.getAllKeeps());
     }
 
-    [HttpGet("user/{id}")]
-    public IEnumerable<Keep> Get(string id)
+    [HttpGet("user")]
+    public IEnumerable<Keep> Get()
     {
-      return _repo.GetByUserId(id);
+      string uid = HttpContext.User.Identity.Name;
+      return _repo.GetByUserId(uid);
     }
-
+    [Authorize]
     [HttpPost]
     public ActionResult<Keep> Post([FromBody] Keep value)
     {
-      Keep result = _repo.NewKeep(value);
-      return Created("/api/keeps/" + result.Id, result);
+      value.UserId = HttpContext.User.Identity.Name;
+      if (value.UserId != null)
+      {
+        Keep result = _repo.NewKeep(value);
+        return Created("/api/keeps/" + result.Id, result);
+      }
+      return Unauthorized(value);
     }
-    [HttpDelete("{id}")]
-    public ActionResult<string> Delete(int id)
+    [Authorize]
+    [HttpDelete("{keepid}")]
+    public ActionResult<string> Delete(string keepId)
     {
-      if (_repo.DeleteKeep(id))
+      string uid = HttpContext.User.Identity.Name;
+      if (uid != null && _repo.DeleteKeep(keepId, uid))
       {
         return Ok("keep was deleted!");
       }
       return BadRequest("couldn't delete keep");
+    }
+
+    [Authorize]
+    [HttpPut("{keepId}")]
+    public Keep Put(int keepId, [FromBody] Keep keep)
+    {
+      keep.Id = keepId;
+      keep.UserId = HttpContext.User.Identity.Name;
+      return _repo.editKeep(keep);
     }
   }
 }

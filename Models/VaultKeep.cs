@@ -11,7 +11,6 @@ namespace keepr.Models
     public int vaultId { get; set; }
     [Required]
     public int keepId { get; set; }
-    [Required]
     public string userId { get; set; }
 
   }

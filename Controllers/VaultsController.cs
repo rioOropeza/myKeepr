@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using keepr.Models;
 using keepr.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Controllers
@@ -19,29 +20,51 @@ namespace keepr.Controllers
       _repo = repo;
     }
     [HttpGet]
-    public ActionResult<IEnumerable<Vault>> Get()
+    public ActionResult<IEnumerable<Vault>> GetAll()
     {
       return Ok(_repo.getAllVaults());
     }
-
-    [HttpGet("user/{id}")]
-    public IEnumerable<Vault> Get(string id)
+    [Authorize]
+    [HttpGet("user")]
+    public IEnumerable<Vault> Get()
     {
-      return _repo.GetVaultByUserId(id);
+      string uid = HttpContext.User.Identity.Name;
+      return _repo.GetVaultByUserId(uid);
     }
 
 
     [HttpPost]
     public ActionResult<Vault> Post([FromBody] Vault value)
     {
-      Vault result = _repo.NewVault(value);
-      return Created("/api/Vault/" + result.Id, result);
-    }
-    [HttpDelete("{id}/{userid}")]
-    public ActionResult<string> Delete(Vault vault)
-    {
-      if (_repo.DeleteVault(vault))
+      value.UserId = HttpContext.User.Identity.Name;
+      if (value.UserId != null)
       {
+        Vault result = _repo.NewVault(value);
+        return Created("/api/Vault/" + result.Id, result);
+      }
+      return BadRequest("couldn't make vault");
+    }
+
+    [HttpPostAttribute("vaultkeep")]
+    public ActionResult<VaultKeep> Post([FromBody] VaultKeep value)
+    {
+      string uid = HttpContext.User.Identity.Name;
+      if (uid != null)
+      {
+        VaultKeep result = _repo.NewVaultKeep(value);
+        return Created("good", result);
+      }
+      return BadRequest("can't make vaultkeep");
+    }
+
+    [Authorize]
+    [HttpDelete("{vaultId}")]
+    public ActionResult<string> Delete(string vaultId)
+    {
+      string uid = HttpContext.User.Identity.Name;
+      if (uid != null)
+      {
+        _repo.DeleteVault(vaultId, uid);
         return Ok("Vault was deleted!");
       }
       return BadRequest("couldn't delete Vault");
