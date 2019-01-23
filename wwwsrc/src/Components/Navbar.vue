@@ -2,8 +2,12 @@
   <div class="pos-f-t">
     <div class="collapse" id="navbarToggleExternalContent">
       <div class="bg-dark p-4">
-        <h5 class="text-white h4">Collapsed content</h5>
-        <span class="text-muted">Toggleable via the navbar brand.</span>
+        <ul class="navbar-nav mt-2 mt-lg-0 menu">
+          <router-link class="font" data-toggle="collapse" data-target="#navbarToggleExternalContent" to="/">Home</router-link>
+          <router-link class="font" data-toggle="collapse" data-target="#navbarToggleExternalContent" to="/dashboard">Dashboard</router-link>
+          <router-link @click.native='logout()' class="font" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+            to="/login">Logout</router-link>
+        </ul>
       </div>
     </div>
     <nav class="navbar navbar-dark bg-dark">
@@ -24,7 +28,11 @@
       }
     },
     computed: {},
-    methods: {}
+    methods: {
+      logout() {
+        this.$store.dispatch('logout')
+      }
+    }
   }
 
 </script>

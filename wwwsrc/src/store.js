@@ -60,6 +60,11 @@ export default new Vuex.Store({
         .catch(e => {
           console.log('Login Failed')
         })
+    }, logout({ commit, dispatch }) {
+      auth.delete('logout')
+        .then(res => {
+          commit('setUser', res.data)
+        })
     },
     getPublicKeeps({ commit, dispatch }) {
       api.get('keeps')
