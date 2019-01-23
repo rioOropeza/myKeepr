@@ -20,7 +20,10 @@ let api = Axios.create({
 export default new Vuex.Store({
   state: {
     user: {},
-    publicKeeps: []
+    publicKeeps: [],
+    userKeeps: [],
+    vaults: [],
+    activeKeep: {}
   },
   mutations: {
     setUser(state, user) {
@@ -28,6 +31,15 @@ export default new Vuex.Store({
     },
     setPublicKeeps(state, keeps) {
       state.publicKeeps = keeps
+    },
+    setUserKeeps(state, userKeeps) {
+      state.userKeeps = userKeeps
+    },
+    setVaults(state, vaults) {
+      state.vaults = vaults
+    },
+    setActive(state, active) {
+      state.activeKeep = active
     }
   },
   actions: {
@@ -71,6 +83,34 @@ export default new Vuex.Store({
         .then(res => {
           commit('setPublicKeeps', res.data)
         })
+    },
+    getUserKeeps({ commit, dispatch }) {
+      api.get('keeps/user')
+        .then(res => {
+          commit('setUserKeeps', res.data)
+        })
+    },
+    getVaults({ commit, dispatch }) {
+      api.get('vaults')
+        .then(res => {
+          commit('setVaults', res.data)
+        })
+    },
+    newKeep({ commit, dispatch }, keep) {
+      debugger
+      api.post('keeps', keep)
+        .then(res => {
+          dispatch('getUserKeeps', res.data)
+        })
+    },
+    deleteKeep({ commit, dispatch }, id) {
+      api.delete('keeps/' + id)
+        .then(res => {
+          dispatch('getUserKeeps')
+        })
+    },
+    setActive({ commit, dispatch }, id) {
+      commit('setActive', id)
     }
   }
 })

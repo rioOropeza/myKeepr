@@ -1,12 +1,14 @@
 <template>
-  <div class="pos-f-t">
+  <div class="pos-f-t padding">
     <div class="collapse" id="navbarToggleExternalContent">
       <div class="bg-dark p-4">
         <ul class="navbar-nav mt-2 mt-lg-0 menu">
           <router-link class="font" data-toggle="collapse" data-target="#navbarToggleExternalContent" to="/">Home</router-link>
-          <router-link class="font" data-toggle="collapse" data-target="#navbarToggleExternalContent" to="/dashboard">Dashboard</router-link>
-          <router-link @click.native='logout()' class="font" data-toggle="collapse" data-target="#navbarToggleExternalContent"
-            to="/login">Logout</router-link>
+          <router-link v-if="User.id" class="font" data-toggle="collapse" data-target="#navbarToggleExternalContent" to="/dashboard">Dashboard</router-link>
+          <router-link v-if="User.id" @click.native='logout()' class="font" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+            to="/">Logout</router-link>
+          <router-link v-if="!User.id" @click.native='login()' class="font" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+            to="/login">Login</router-link>
         </ul>
       </div>
     </div>
@@ -27,7 +29,14 @@
 
       }
     },
-    computed: {},
+    mounted() {
+
+    },
+    computed: {
+      User() {
+        return this.$store.state.user
+      }
+    },
     methods: {
       logout() {
         this.$store.dispatch('logout')
@@ -38,5 +47,7 @@
 </script>
 
 <style>
-
+  .padding {
+    padding-bottom: 10px;
+  }
 </style>

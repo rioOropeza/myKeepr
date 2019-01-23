@@ -1,24 +1,28 @@
 <template>
-    <div class="login">
-        <form v-if="loginForm" @submit.prevent="loginUser">
-            <input type="email" v-model="creds.email" placeholder="email">
-            <input type="password" v-model="creds.password" placeholder="password">
-            <button type="submit">Login</button>
-        </form>
-        <form v-else @submit.prevent="register">
-            <input type="text" v-model="newUser.username" placeholder="name">
-            <input type="email" v-model="newUser.email" placeholder="email">
-            <input type="password" v-model="newUser.password" placeholder="password">
-            <button type="submit">Create Account</button>
-        </form>
-        <div @click="loginForm = !loginForm">
-            <p v-if="loginForm">No account Click to Register</p>
-            <p v-else>Already have an account click to Login</p>
+    <div>
+        <navbar />
+        <div class="login">
+            <form v-if="loginForm" @submit.prevent="loginUser">
+                <input type="email" v-model="creds.email" placeholder="email">
+                <input type="password" v-model="creds.password" placeholder="password">
+                <button type="submit">Login</button>
+            </form>
+            <form v-else @submit.prevent="register">
+                <input type="text" v-model="newUser.username" placeholder="name">
+                <input type="email" v-model="newUser.email" placeholder="email">
+                <input type="password" v-model="newUser.password" placeholder="password">
+                <button type="submit">Create Account</button>
+            </form>
+            <div @click="loginForm = !loginForm">
+                <p v-if="loginForm">No account Click to Register</p>
+                <p v-else>Already have an account click to Login</p>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+    import navbar from "@/Components/Navbar.vue"
     export default {
         name: "login",
         mounted() {
@@ -46,6 +50,9 @@
             loginUser() {
                 this.$store.dispatch("login", this.creds);
             }
+        },
+        components: {
+            navbar
         }
     };
 </script>
