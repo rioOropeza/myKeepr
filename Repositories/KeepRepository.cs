@@ -36,9 +36,9 @@ namespace keepr.Repositories
       return keep;
     }
     //DELETE KEEP
-    public bool DeleteKeep(string keepId, string userId)
+    public bool DeleteKeep(string keepId, string userid)
     {
-      int success = _db.Execute(@"DELETE FROM Keeps WHERE id = @keepId && userid = @userid", new { keepId, userId });
+      int success = _db.Execute(@"DELETE FROM Keeps WHERE id = @keepId && userid = @userid", new { keepId, userid });
       return success != 0;
     }
     //get keeps by vault ID

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navbar />
+
     <div class="home container-fluid">
       <div class="row">
         <div class="col-12">
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import navbar from "@/Components/Navbar.vue"
+
   export default {
     name: "home",
     mounted() {
@@ -33,9 +33,6 @@
       publicKeeps() {
         return this.$store.state.publicKeeps
       }
-    },
-    components: {
-      navbar
     }
   };
 </script>

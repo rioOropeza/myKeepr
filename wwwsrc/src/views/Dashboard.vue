@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navbar />
+
     <h1>Welcome {{User.username}}</h1>
     <router-link :to="{name: 'keeps'}">
       <div class="jumbotron jumbotron-fluid">
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import navbar from "@/Components/Navbar.vue"
+
   export default {
     name: 'dashboard',
     data() {
@@ -33,8 +33,7 @@
         return this.$store.state.user
       }
     },
-    methods: {},
-    components: { navbar }
+    methods: {}
   }
 
 </script>

@@ -23,8 +23,8 @@ namespace keepr.Controllers
     [HttpPost]
     public ActionResult<VaultKeep> Post([FromBody] VaultKeep value)
     {
-      value.userId = HttpContext.User.Identity.Name;
-      if (value.userId != null)
+      value.UserId = HttpContext.User.Identity.Name;
+      if (value.UserId != null)
       {
         VaultKeep result = _repo.NewVaultKeep(value);
         return Created("good", result);

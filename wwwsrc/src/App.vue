@@ -1,13 +1,18 @@
 <template>
   <div id="app">
-    <router-view />
+    <navbar>
+      <</navbar> <router-view />
   </div>
 </template>
 <script>
+  import navbar from "@/Components/Navbar.vue"
   export default {
     name: "app",
     mounted() {
       this.$store.dispatch("authenticate");
+    },
+    components: {
+      navbar
     }
   }
 </script>

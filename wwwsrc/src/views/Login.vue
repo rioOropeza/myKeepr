@@ -1,6 +1,6 @@
 <template>
     <div>
-        <navbar />
+
         <div class="login">
             <form v-if="loginForm" @submit.prevent="loginUser">
                 <input type="email" v-model="creds.email" placeholder="email">
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import navbar from "@/Components/Navbar.vue"
+
     export default {
         name: "login",
         mounted() {
@@ -50,9 +50,6 @@
             loginUser() {
                 this.$store.dispatch("login", this.creds);
             }
-        },
-        components: {
-            navbar
         }
     };
 </script>

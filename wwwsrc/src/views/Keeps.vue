@@ -1,6 +1,5 @@
 <template>
   <div>
-    <navbar />
     <div class="container-fluid">
       <div class="row">
         <div class="col-8">
@@ -11,6 +10,7 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addkeep">
           add keep
         </button>
+        <!-- ADD KEEP MODAL -->
         <div class="modal fade" id="addkeep" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
           aria-hidden="true">
           <div class="modal-dialog" role="document">
@@ -34,18 +34,22 @@
           </div>
         </div>
       </div>
+      <!-- KEEPS -->
       <div class="row">
         <div class="col-12 d-flex flex-wrap">
           <div class="card" style="width: 18rem;" v-for="keep in userKeeps">
             <img :src="keep.img" class="card-img-top" alt="picture">
             <div class="card-body">
               <h5 class="card-title">{{keep.name}}</h5>
+              <h5>views: {{keep.views}} keeps:{{keep.keeps}} shares: {{keep.shares}}</h5>
               <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addtovault">
+                add to vault
+              </button>
               <button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#'+keep.id">
                 View Keep
               </button>
-
-              <!-- Modal -->
+              <!-- VIEWING A SINGLE KEEP -->
               <div class="modal fade" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -61,8 +65,19 @@
                       {{keep.description}}
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary">update</button>
+
                       <button type="button" @click="deleteKeep(keep.id)" class="btn btn-danger">delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- ADD TO VAULT Modal -->
+              <div class="modal fade" id="addtovault" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-body">
+                      <div v-for="vault in vaults"><button @click="addKeepToVault(vault.id, keep.id)">{{vault.name}}</button></div>
                     </div>
                   </div>
                 </div>
@@ -76,7 +91,7 @@
 </template>
 
 <script>
-  import navbar from "@/Components/Navbar.vue"
+
   export default {
     name: 'keeps',
     data() {
@@ -91,27 +106,39 @@
     },
     mounted() {
       this.$store.dispatch('getUserKeeps');
+      this.$store.dispatch('getVaults')
     },
     computed: {
       userKeeps() {
         return this.$store.state.userKeeps
       },
-      active() {
-        return this.$store.state.activeKeep
+      vaults() {
+        return this.$store.state.vaults
+      },
+      user() {
+        return this.$store.state.user
       }
     },
     methods: {
       makeKeep() {
         this.$store.dispatch('newKeep', this.newKeep);
       },
-      deleteKeep() {
+      deleteKeep(id) {
         this.$store.dispatch('deleteKeep', id)
       },
-      setActiveKeep() {
-        this.$store.dispatch('setActive')
+      updateKeep(id) {
+        this.$store.dispatch('updateKeep', id)
+      },
+      addKeepToVault(vId, kId) {
+        let payload = {
+          vaultId: vId,
+          keepId: kId,
+          user: this.user.id
+
+        }
+        this.$store.dispatch('addKeepToVault', payload)
       }
-    },
-    components: { navbar }
+    }
   }
 
 </script>
