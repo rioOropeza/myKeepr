@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="home container-fluid">
+    <div class="home container-fluid background">
       <div class="row">
         <div class="col-12">
           <h1>Welcome Home</h1>
@@ -13,7 +13,7 @@
             <img :src="keep.img" class="card-img-top" alt="picture">
             <div class="card-body">
               <h5 class="card-title">{{keep.name}}</h5>
-              <button type="button" class="btn btn-primary" @click="activeKeep = keep.id" data-toggle="modal"
+              <button type="button" class="btn btn-primary" @click="activeKeep = keep.id;update(keep.id)" data-toggle="modal"
                 :data-target="'#'+keep.id">
                 View Keep
               </button>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="modal-body">
                       <img :src="keep.img" alt="keep">
-                      {{keep.description}}
+                      <h5>{{keep.description}}</h5>
                       <h5>views: {{keep.views}} keeps:{{keep.keeps}} shares: {{keep.shares}}</h5>
                     </div>
                     <div class="modal-footer" v-if="user.email">
@@ -124,7 +124,24 @@
       },
       deleteKeep(id) {
         this.$store.dispatch('deleteKeep', id)
+      },
+      update(Id) {
+        let keep = this.$store.state.publicKeeps.find(keep => keep.id == Id)
+        if (keep) {
+          keep.views++
+          this.$store.dispatch("updateKeep", keep)
+        }
       }
     }
   };
 </script>
+<style>
+  /* .background {
+    background-image: url("assets/splatter.jpg");
+    height: 100%;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  } */
+</style>

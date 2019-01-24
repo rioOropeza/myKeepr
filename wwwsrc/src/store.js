@@ -110,14 +110,9 @@ export default new Vuex.Store({
           dispatch('getUserKeeps')
         })
     },
-    updateViews({ commit, dispatch }, id) {
-      api.put('keeps' + id)
-        .then(res => {
-          dispatch('getUserKeeps')
-        })
-    },
-    updateKeeps({ commit, dispatch }, id) {
-      api.put('keeps' + id)
+    updateKeep({ commit, dispatch }, payload) {
+
+      api.put('keeps/' + payload.id, payload)
         .then(res => {
           dispatch('getUserKeeps')
         })

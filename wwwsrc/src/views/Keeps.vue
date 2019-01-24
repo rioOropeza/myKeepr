@@ -41,11 +41,11 @@
             <img :src="keep.img" class="card-img-top" alt="picture">
             <div class="card-body">
               <h5 class="card-title">{{keep.name}}</h5>
-              <h5>views: {{keep.views}} keeps:{{keep.keeps}} shares: {{keep.shares}}</h5>
+
               <!-- Button trigger modal -->
 
-              <button type="button" class="btn btn-primary" @click="activeKeep = keep.id" data-toggle="modal"
-                :data-target="'#'+keep.id">
+              <button type="button" class="btn btn-primary" @click="activeKeep.id = keep.id;update(keep.id)"
+                data-toggle="modal" :data-target="'#'+keep.id">
                 View Keep
               </button>
               <div class="modal fade bd-example-modal-lg" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
@@ -61,6 +61,7 @@
                     <div class="modal-body">
                       <img :src="keep.img" alt="keep">
                       {{keep.description}}
+                      <h5>views: {{keep.views}} keeps:{{keep.keeps}} shares: {{keep.shares}}</h5>
                     </div>
                     <div class="modal-footer">
                       <div class="dropdown">
@@ -69,7 +70,7 @@
                           add to vault
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" v-for="vault in vaults" @click="addKeepToVault(vault.id, activeKeep)">{{vault.name}}</a>
+                          <a class="dropdown-item" v-for="vault in vaults" @click="addKeepToVault(vault.id, activeKeep.id)">{{vault.name}}</a>
                         </div>
                       </div>
                       <button type="button" @click="deleteKeep(keep.id)" class="btn btn-danger">delete</button>
@@ -131,10 +132,15 @@
           img: "",
           isPrivate: 0
         },
-        activeKeep: 0
+        activeKeep: {
+          id: 0,
+
+
+        }
       }
     },
     mounted() {
+
       this.$store.dispatch('getUserKeeps');
       this.$store.dispatch('getVaults')
     },
@@ -156,9 +162,14 @@
       deleteKeep(id) {
         this.$store.dispatch('deleteKeep', id)
       },
-      updateKeep(id) {
-        this.$store.dispatch('updateKeep', id)
-      },
+      update(Id) {
+        let keep = this.$store.state.publicKeeps.find(keep => keep.id == Id)
+        if (keep) {
+          keep.views++
+          this.$store.dispatch("updateKeep", keep)
+        }
+      }
+      ,
       addKeepToVault(vId, kId) {
 
         let payload = {

@@ -59,8 +59,6 @@ namespace keepr.Controllers
     [HttpPut("{keepId}")]
     public Keep Put(int keepId, [FromBody] Keep keep)
     {
-      keep.Id = keepId;
-      keep.UserId = HttpContext.User.Identity.Name;
       return _repo.editKeep(keep);
     }
   }

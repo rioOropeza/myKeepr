@@ -7,8 +7,8 @@
           <img :src="keep.img" class="card-img-top" alt="picture">
           <div class="card-body">
             <h5 class="card-title">{{keep.name}}</h5>
-            <h5>views: {{keep.views}} keeps:{{keep.keeps}} shares: {{keep.shares}}</h5>
-            <button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#'+keep.id">
+
+            <button type="button" class="btn btn-primary" @click="update(keep.id)" data-toggle="modal" :data-target="'#'+keep.id">
               View Keep
             </button>
             <div class="modal fade bd-example-modal-lg" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
@@ -79,7 +79,7 @@
       }
     },
     activeVaultKeeps() {
-      return this.$store.state.activeVaultKeeps
+      return this.$store.state.activeVault.keeps
     },
     methods: {
       removeKeep(vaultId, keepId) {
@@ -89,6 +89,13 @@
           keepId: keepId
         }
         this.$store.dispatch('removeKeepFromVault', payload)
+      },
+      update(Id) {
+        let keep = this.$store.state.publicKeeps.find(keep => keep.id == Id)
+        if (keep) {
+          keep.views++
+          this.$store.dispatch("updateKeep", keep)
+        }
       }
     }
   }
