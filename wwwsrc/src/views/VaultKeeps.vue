@@ -11,7 +11,29 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#'+keep.id">
               View Keep
             </button>
-            <div class="modal fade" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            <div class="modal fade bd-example-modal-lg" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{keep.name}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <img :src="keep.img" alt="keep">
+                    {{keep.description}}
+                    <h5>views: {{keep.views}} keeps:{{keep.keeps}} shares: {{keep.shares}}</h5>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" @click="removeKeep(activeVault.id, keep.id)" class="btn btn-danger">remove
+                      from vault</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="modal fade" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
               aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -32,7 +54,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

@@ -17,8 +17,39 @@
                 :data-target="'#'+keep.id">
                 View Keep
               </button>
+              <div class="modal fade bd-example-modal-lg" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">{{keep.name}}</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <img :src="keep.img" alt="keep">
+                      {{keep.description}}
+                      <h5>views: {{keep.views}} keeps:{{keep.keeps}} shares: {{keep.shares}}</h5>
+                    </div>
+                    <div class="modal-footer" v-if="user.email">
+                      <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          add to vault
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" v-for="vault in Vaults" @click="addKeepToVault(vault.id, activeKeep)">{{vault.name}}</a>
+                        </div>
+                      </div>
+                      <button v-if="user.id == keep.userId" type="button" @click="deleteKeep(keep.id)" class="btn btn-danger">delete</button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
               <!-- VIEWING A SINGLE KEEP -->
-              <div class="modal fade" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              <!-- <div class="modal fade" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -48,7 +79,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
