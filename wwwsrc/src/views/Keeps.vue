@@ -43,10 +43,9 @@
               <h5 class="card-title">{{keep.name}}</h5>
               <h5>views: {{keep.views}} keeps:{{keep.keeps}} shares: {{keep.shares}}</h5>
               <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addtovault">
-                add to vault
-              </button>
-              <button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#'+keep.id">
+
+              <button type="button" class="btn btn-primary" @click="activeKeep = keep.id" data-toggle="modal"
+                :data-target="'#'+keep.id">
                 View Keep
               </button>
               <!-- VIEWING A SINGLE KEEP -->
@@ -65,23 +64,23 @@
                       {{keep.description}}
                     </div>
                     <div class="modal-footer">
-
+                      <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          add to vault
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" v-for="vault in vaults" @click="addKeepToVault(vault.id, activeKeep)">{{vault.name}}</a>
+                        </div>
+                      </div>
                       <button type="button" @click="deleteKeep(keep.id)" class="btn btn-danger">delete</button>
+
                     </div>
                   </div>
                 </div>
               </div>
               <!-- ADD TO VAULT Modal -->
-              <div class="modal fade" id="addtovault" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-body">
-                      <div v-for="vault in vaults"><button @click="addKeepToVault(vault.id, keep.id)">{{vault.name}}</button></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
             </div>
           </div>
         </div>
@@ -101,7 +100,8 @@
           description: "",
           img: "",
           isPrivate: 0
-        }
+        },
+        activeKeep: 0
       }
     },
     mounted() {
@@ -130,6 +130,7 @@
         this.$store.dispatch('updateKeep', id)
       },
       addKeepToVault(vId, kId) {
+
         let payload = {
           vaultId: vId,
           keepId: kId,
