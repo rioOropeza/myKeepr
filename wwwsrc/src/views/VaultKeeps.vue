@@ -95,6 +95,7 @@
         if (keep) {
           keep.views++
           this.$store.dispatch("updateKeep", keep)
+          this.$store.dispatch('activeVault', this.$route.params.vaultId)
         }
       }
     }
