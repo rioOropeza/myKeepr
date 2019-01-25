@@ -28,7 +28,7 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <img :src="keep.img" alt="keep">
+                      <img class="img-responsive" :src="keep.img" style="max-height:700px" alt="keep">
                       <h5>{{keep.description}}</h5>
                       <h5>views: {{keep.views}} keeps:{{keep.keeps}} shares: {{keep.shares}}</h5>
                     </div>
