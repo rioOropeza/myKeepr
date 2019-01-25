@@ -55,7 +55,7 @@ namespace keepr.Controllers
       return BadRequest("couldn't delete keep");
     }
 
-    [Authorize]
+
     [HttpPut("{keepId}")]
     public Keep Put(int keepId, [FromBody] Keep keep)
     {

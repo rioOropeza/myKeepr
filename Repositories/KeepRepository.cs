@@ -59,7 +59,7 @@ WHERE(vaultId = @vaultId AND vk.userId = @userId)");
         keeps=@keeps,
         views=@views,
         shares=@shares
-        WHERE id = @Id AND userId = @userId
+        WHERE id = @Id
       ", keep);
       return keep;
     }
