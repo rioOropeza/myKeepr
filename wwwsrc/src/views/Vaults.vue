@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="vaults container-fluid">
       <div class="row">
         <div class="col4">
@@ -32,11 +31,12 @@
       </div>
       <div class="row">
         <div class="col-12 d-flex flex-wrap">
-          <div @click="" class="card text-white bg-dark mb-3" style="max-width: 18rem;" v-for="vault in Vaults">
+          <div class="card text-white bg-dark mb-3" style="max-width: 18rem;" v-for="vault in Vaults">
             <router-link :to="{name: 'vault', params: {vaultId: vault.id}}">
               <div class="card-header">{{vault.name}}</div>
               <div class="card-body">
                 <p class="card-text">{{vault.description}}</p>
+
               </div>
             </router-link>
           </div>
@@ -71,6 +71,7 @@
       makeVault(vault) {
         this.$store.dispatch('newVault', this.newVault);
       }
+
     }
   }
 

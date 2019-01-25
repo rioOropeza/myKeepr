@@ -1,7 +1,15 @@
 <template>
-
   <div class="vault container-fluid">
     <div class="row">
+      <div class="col-12">
+        <h3>{{activeVault.name}}</h3>
+
+      </div>
+      <div class="col-12">
+
+        <h3>{{activeVault.description}}</h3>
+      </div>
+      <button @click="deleteVault" type="button" class="btn btn-danger">delete vault</button>
       <div class="col-12 d-flex flex-wrap">
         <div class="card" style="width: 18rem;" v-for="keep in activeVault.keeps">
           <img :src="keep.img" class="card-img-top" alt="picture">
@@ -27,7 +35,7 @@
                     <h5>views: {{keep.views}} keeps:{{keep.keeps}} shares: {{keep.shares}}</h5>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" @click="removeKeep(activeVault.id, keep.id)" class="btn btn-danger">remove
+                    <button type="button" data-dismiss="modal" @click="removeKeep(activeVault.id, keep.id)" class="btn btn-danger">remove
                       from vault</button>
                   </div>
                 </div>
@@ -97,6 +105,9 @@
           this.$store.dispatch("updateKeep", keep)
           this.$store.dispatch('activeVault', this.$route.params.vaultId)
         }
+      },
+      deleteVault() {
+        this.$store.dispatch('deleteVault', this.$route.params.vaultId)
       }
     }
   }

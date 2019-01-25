@@ -118,9 +118,9 @@
           vaultId: vId,
           keepId: kId,
           user: this.user.id
-
         }
         this.$store.dispatch('addKeepToVault', payload)
+        //dispatch to update the keeps on a keep
       },
       deleteKeep(id) {
         this.$store.dispatch('deleteKeep', id)
