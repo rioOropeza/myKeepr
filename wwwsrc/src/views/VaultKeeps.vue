@@ -3,7 +3,6 @@
     <div class="row">
       <div class="col-12">
         <h3>{{activeVault.name}}</h3>
-
       </div>
       <div class="col-12">
 
@@ -41,28 +40,7 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="modal fade" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-              aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{keep.name}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <img :src="keep.img" alt="keep">
-                    {{keep.description}}
-                    <h5>views: {{keep.views}} keeps:{{keep.keeps}} shares: {{keep.shares}}</h5>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" @click="removeKeep(activeVault.id, keep.id)" class="btn btn-danger">remove
-                      from vault</button>
-                  </div>
-                </div>
-              </div>
-            </div> -->
+
           </div>
         </div>
       </div>
@@ -80,10 +58,14 @@
     },
     mounted() {
       this.$store.dispatch('activeVault', this.$route.params.vaultId)
+      this.$store.dispatch('getUserKeeps');
     },
     computed: {
       activeVault() {
         return this.$store.state.activeVault
+      },
+      userKeeps() {
+        return this.$store.state.userKeeps
       }
     },
     activeVaultKeeps() {
@@ -91,6 +73,17 @@
     },
     methods: {
       removeKeep(vaultId, keepId) {
+        let keep = this.$store.state.publicKeeps.find(keep => keep.id == keepId)
+        if (keep) {
+          keep.keeps--
+          this.$store.dispatch("updateKeep", keep)
+
+        } else if (!keep) {
+          let privateKeep = this.$store.state.userKeeps.find(keep => keep.id == keepId)
+          privateKeep.keeps--
+          this.$store.dispatch("updateKeep", privateKeep)
+
+        }
 
         let payload = {
           vaultId: vaultId,
@@ -99,10 +92,16 @@
         this.$store.dispatch('removeKeepFromVault', payload)
       },
       update(Id) {
+
         let keep = this.$store.state.publicKeeps.find(keep => keep.id == Id)
         if (keep) {
           keep.views++
           this.$store.dispatch("updateKeep", keep)
+          this.$store.dispatch('activeVault', this.$route.params.vaultId)
+        } else if (!keep) {
+          let privateKeep = this.$store.state.userKeeps.find(keep => keep.id == Id)
+          privateKeep.views++
+          this.$store.dispatch("updateKeep", privateKeep)
           this.$store.dispatch('activeVault', this.$route.params.vaultId)
         }
       },

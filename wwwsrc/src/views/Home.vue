@@ -110,16 +110,33 @@
       },
       Vaults() {
         return this.$store.state.vaults
+      },
+      activeVault() {
+        return this.$store.state.activeVault
       }
     },
     methods: {
       addKeepToVault(vId, kId) {
-        let payload = {
-          vaultId: vId,
-          keepId: kId,
-          user: this.user.id
+
+        this.$store.dispatch("activeVault", vId)
+        let k = this.$store.state.activeVault.keeps.find(keep => keep.id == kId)
+        if (!k) {
+
+          let keep = this.$store.state.publicKeeps.find(keep => keep.id == kId)
+          if (keep) {
+            keep.keeps++
+            this.$store.dispatch("updateKeep", keep)
+
+          }
+          let payload = {
+            vaultId: vId,
+            keepId: kId,
+            user: this.user.id
+          }
+          this.$store.dispatch('addKeepToVault', payload)
+        } else {
+          console.log('vault already contains that keep')
         }
-        this.$store.dispatch('addKeepToVault', payload)
         //dispatch to update the keeps on a keep
       },
       deleteKeep(id) {
