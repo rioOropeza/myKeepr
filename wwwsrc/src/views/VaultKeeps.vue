@@ -14,7 +14,6 @@
           <img :src="keep.img" class="card-img-top" alt="picture">
           <div class="card-body">
             <h5 class="card-title">{{keep.name}}</h5>
-
             <button type="button" class="btn btn-primary" @click="update(keep.id)" data-toggle="modal" :data-target="'#'+keep.id">
               View Keep
             </button>
@@ -29,7 +28,7 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <img :src="keep.img" alt="keep">
+                    <img class="img-responsive" style="max-height:700px" :src="keep.img" alt="keep">
                     {{keep.description}}
                     <h5>views: {{keep.views}} keeps:{{keep.keeps}} shares: {{keep.shares}}</h5>
                   </div>
@@ -47,7 +46,6 @@
     </div>
   </div>
 </template>
-
 <script>
   export default {
     name: 'vault',
@@ -92,7 +90,6 @@
         this.$store.dispatch('removeKeepFromVault', payload)
       },
       update(Id) {
-
         let keep = this.$store.state.publicKeeps.find(keep => keep.id == Id)
         if (keep) {
           keep.views++

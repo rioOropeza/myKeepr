@@ -129,6 +129,7 @@
     methods: {
       makeKeep() {
         this.$store.dispatch('newKeep', this.newKeep);
+        this.$store.dispatch('getUserKeeps');
       },
       deleteKeep(id) {
         this.$store.dispatch('deleteKeep', id)
@@ -159,6 +160,10 @@
             keep.keeps++
             this.$store.dispatch("updateKeep", keep)
 
+          } else if (!keep) {
+            let privateKeep = this.$store.state.userKeeps.find(keep => keep.id == kId)
+            privateKeep.keeps++
+            this.$store.dispatch("updateKeep", privateKeep)
           }
           let payload = {
             vaultId: vId,
