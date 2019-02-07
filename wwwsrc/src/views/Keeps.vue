@@ -48,8 +48,8 @@
                 data-toggle="modal" :data-target="'#'+keep.id">
                 View Keep
               </button>
-              <div class="modal fade bd-example-modal-lg" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-                aria-hidden="true">
+              <div class="modal fade bd-example-modal-lg" :id="keep.id" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -70,7 +70,8 @@
                           add to vault
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" v-for="vault in vaults" @click="addKeepToVault(vault.id, activeKeep.id)">{{vault.name}}</a>
+                          <a class="dropdown-item" v-for="vault in vaults"
+                            @click="addKeepToVault(vault.id, activeKeep.id)">{{vault.name}}</a>
                         </div>
                       </div>
                       <button type="button" @click="deleteKeep(keep.id)" class="btn btn-danger">delete</button>
@@ -152,7 +153,8 @@
       addKeepToVault(vId, kId) {
 
         this.$store.dispatch("activeVault", vId)
-        let k = this.$store.state.activeVault.keeps.find(keep => keep.id == kId)
+        // debugger
+        let k = this.activeVault.keeps.find(keep => keep.id == kId)
         if (!k) {
 
           let keep = this.$store.state.publicKeeps.find(keep => keep.id == kId)
