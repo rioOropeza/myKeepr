@@ -7,7 +7,7 @@ Vue.use(Vuex)
 
 let production = !window.location.host.includes('localhost');
 
-let baseUrl = production ? '//my-keepr.herokuapp.com/' : 'http://localhost:5000/';
+let baseUrl = production ? 'https://my-keepr.herokuapp.com' : 'http://localhost:5000/';
 
 let auth = Axios.create({
   baseURL: baseUrl + "/account/",
