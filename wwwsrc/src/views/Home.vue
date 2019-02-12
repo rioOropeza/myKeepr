@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="home container-fluid background">
       <div class="row">
         <div class="col-12">
@@ -13,12 +12,12 @@
             <img :src="keep.img" class="card-img-top" alt="picture">
             <div class="card-body">
               <h5 class="card-title">{{keep.name}}</h5>
-              <button type="button" class="btn btn-primary" @click="activeKeep = keep.id;update(keep.id)" data-toggle="modal"
-                :data-target="'#'+keep.id">
+              <button type="button" class="btn btn-primary" @click="activeKeep = keep.id;update(keep.id)"
+                data-toggle="modal" :data-target="'#'+keep.id">
                 View Keep
               </button>
-              <div class="modal fade bd-example-modal-lg" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-                aria-hidden="true">
+              <div class="modal fade bd-example-modal-lg" :id="keep.id" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -39,10 +38,12 @@
                           add to vault
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" v-for="vault in Vaults" @click="addKeepToVault(vault.id, activeKeep)">{{vault.name}}</a>
+                          <a class="dropdown-item" v-for="vault in Vaults"
+                            @click="addKeepToVault(vault.id, activeKeep)">{{vault.name}}</a>
                         </div>
                       </div>
-                      <button v-if="user.id == keep.userId" type="button" @click="deleteKeep(keep.id)" class="btn btn-danger">delete</button>
+                      <button v-if="user.id == keep.userId" type="button" @click="deleteKeep(keep.id)"
+                        class="btn btn-danger">delete</button>
 
                     </div>
                   </div>
