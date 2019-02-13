@@ -48,7 +48,7 @@ namespace Keepr
                   {
                     builder
                               .WithOrigins(new string[]{
-                                "http://localhost:8080","https://my-keepr.herokuapp.com"
+                                "https://my-keepr.herokuapp.com"
                           })
                               .AllowAnyMethod()
                               .AllowAnyHeader()
